@@ -1,0 +1,99 @@
+
+entity Cliente {
+	nome String required
+    dataNascimento LocalDate
+    email String
+    cpf String
+    documentoPessoal String
+    tipoDocumentoPessoal String	
+    possuiConvenio Boolean
+}
+
+entity Convenio {
+	numeroDoConvenio String
+    instuicao String
+    dataExpiracao String
+}
+
+entity Endereco {
+	  cep String
+      logradouro String
+      complemento String
+      bairro String
+      localidade String
+      uf String   
+}
+
+
+enum TipoTelefone {
+	RESIDENCIAL, COMERCIAL_FIXO, COMERCIAL_MOVEL, PESSOAL 
+}
+
+
+
+entity Telefone {
+	numeroTelefone String
+    tipoTelefone TipoTelefone
+}
+
+
+
+
+entity User {
+	nome String
+    funcao String    
+}
+
+entity Funcao {
+	descricao String
+}
+
+entity Medicamento {
+	descricao String,
+	dataValidade LocalDate,
+    valor BigDecimal,
+    quantidade Integer,
+}
+
+entity Contrato {
+	dataContrato Instant
+    valorContrato BigDecimal
+}
+
+entity Agenda {
+	dataHoraSessao Instant
+    realizada Boolean
+}
+
+entity Servico {
+	descricao String
+    
+}
+
+relationship ManyToMany {
+	Servico{medicamento} to Medicamento{servico},
+    Medicamento{servico} to Servico{medicamento},
+}
+
+relationship OneToMany {
+	Cliente{telefone} to Telefone,
+    Endereco{cliente} to Cliente,
+    User{telefone} to Telefone,
+    Funcao{user} to User,
+}
+
+// defining multiple oneToOne relationships
+
+
+// Set pagination options
+
+paginate Job with pagination
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl 
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
